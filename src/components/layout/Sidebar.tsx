@@ -18,7 +18,7 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
-  LogOut,
+  Crown,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -125,30 +125,26 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* User Profile */}
+      {/* Plan / Subscription shortcut */}
       <div className="border-t border-gray-50 p-4 bg-gray-50/50">
-        <div className={clsx(
-          "flex items-center p-2 rounded-xl transition-all duration-200 hover:bg-white hover:shadow-sm cursor-pointer group",
-          isCollapsed && "justify-center"
-        )}>
-          <div className="relative">
-            <div className="h-10 w-10 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shrink-0 shadow-sm ring-2 ring-white">
-              أ
-            </div>
-            <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-white rounded-full"></div>
+        <Link
+          href="/settings/plan"
+          className={clsx(
+            "flex items-center p-2 rounded-xl transition-all duration-200 hover:bg-white hover:shadow-sm group",
+            isCollapsed && "justify-center"
+          )}
+          title={isCollapsed ? "الخطة والاشتراك" : undefined}
+        >
+          <div className="h-10 w-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shrink-0 shadow-sm ring-2 ring-white">
+            <Crown className="h-5 w-5" />
           </div>
-          
           {!isCollapsed && (
-            <div className="mr-3 flex-1 overflow-hidden transition-opacity duration-300">
-              <p className="text-sm font-bold text-gray-800 truncate group-hover:text-blue-700 transition-colors">أحمد محمد</p>
-              <p className="text-xs text-gray-500 truncate">مدير النظام</p>
+            <div className="mr-3 flex-1 overflow-hidden">
+              <p className="text-sm font-bold text-gray-800 truncate group-hover:text-blue-700 transition-colors">الخطة والاشتراك</p>
+              <p className="text-xs text-gray-500 truncate">إدارة التجربة والترقية</p>
             </div>
           )}
-          
-          {!isCollapsed && (
-            <LogOut className="h-5 w-5 text-gray-400 hover:text-red-500 transition-colors" />
-          )}
-        </div>
+        </Link>
       </div>
     </div>
   );
