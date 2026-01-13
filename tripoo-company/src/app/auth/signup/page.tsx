@@ -47,14 +47,27 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <div className="p-8">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Tripoo</h1>
-            <p className="text-gray-600">إنشاء حساب جديد</p>
-          </div>
+    <div className="min-h-screen bg-linear-to-br from-blue-600 to-indigo-700 flex">
+      {/* Left Side - Logo & Branding */}
+      <div className="hidden lg:flex lg:w-1/2 items-center justify-center text-white p-8">
+        <div className="text-center">
+          <div className="text-6xl font-bold mb-4">Tripoo</div>
+          <p className="text-xl text-blue-100 mb-8">نظام إدارة الحجوزات والأساطيل</p>
+          <p className="text-blue-100 max-w-sm mx-auto leading-relaxed">
+            منصة متكاملة لإدارة الرحلات والحجوزات وأساطيل الأتوبيسات بكفاءة عالية
+          </p>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8">
+        <Card className="w-full max-w-sm shadow-lg">
+          <div className="p-8">
+            {/* Header */}
+            <div className="text-center mb-8 lg:hidden">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Tripoo</h1>
+              <p className="text-gray-600">إنشاء حساب جديد</p>
+            </div>
 
           {/* Error Message */}
           {error && (
@@ -162,5 +175,6 @@ export default function SignupPage() {
         </div>
       </Card>
     </div>
+  </div>
   )
 }
