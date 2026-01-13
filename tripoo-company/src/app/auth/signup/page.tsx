@@ -1,21 +1,22 @@
 'use client'
 
 import { useState } from 'react'
+import { Loader2, Mail, User, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
-import { Card } from '@/components/ui/Card'
+import AuthSplitLayout from '@/components/layout/AuthSplitLayout'
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
-    companyName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    phone: '',
   })
+  
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -24,157 +25,122 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('كلمات المرور غير متطابقة')
-      return
-    }
-
     setIsLoading(true)
-
-    try {
-      // TODO: Add Supabase signup
-      console.log('Signup attempt:', formData)
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      alert('تم إنشاء الحساب بنجاح')
-    } catch (err) {
-      setError('فشل إنشاء الحساب. حاول مرة أخرى.')
-      console.error(err)
-    } finally {
-      setIsLoading(false)
-    }
+    await new Promise(r => setTimeout(r, 1500))
+    setIsLoading(false)
+    alert("تم إنشاء الحساب!")
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-600 to-indigo-700 flex">
-      {/* Left Side - Logo & Branding */}
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center text-white p-8">
-        <div className="text-center">
-          <div className="text-6xl font-bold mb-4">Tripoo</div>
-          <p className="text-xl text-blue-100 mb-8">نظام إدارة الحجوزات والأساطيل</p>
-          <p className="text-blue-100 max-w-sm mx-auto leading-relaxed">
-            منصة متكاملة لإدارة الرحلات والحجوزات وأساطيل الأتوبيسات بكفاءة عالية
-          </p>
+    <AuthSplitLayout 
+      title="إنشاء حساب جديد" 
+      subtitle=""
+      mode="signup"
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
+        
+        {/* Name Row */}
+        <div className="grid grid-cols-2 gap-4">
+            <div className="group space-y-1.5">
+                <Label htmlFor="firstName" className="text-xs font-semibold text-slate-500 mr-1">الاسم الأول</Label>
+                <div className="relative">
+                    <Input 
+                        id="firstName" 
+                        name="firstName" 
+                        placeholder="محمد" 
+                        className="h-14 bg-slate-50 border-slate-200 focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-4 transition-all duration-300 font-medium text-slate-700 placeholder:text-slate-400"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required 
+                    />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 size-5" />
+                </div>
+            </div>
+
+            <div className="group space-y-1.5">
+                <Label htmlFor="lastName" className="text-xs font-semibold text-slate-500 mr-1">اسم العائلة</Label>
+                <div className="relative">
+                    <Input 
+                        id="lastName" 
+                        name="lastName" 
+                        placeholder="أحمد" 
+                        className="h-14 bg-slate-50 border-slate-200 focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-4 transition-all duration-300 font-medium text-slate-700 placeholder:text-slate-400"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required 
+                    />
+                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 size-5" />
+                </div>
+            </div>
         </div>
-      </div>
 
-      {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8">
-        <Card className="w-full max-w-sm shadow-lg">
-          <div className="p-8">
-            {/* Header */}
-            <div className="text-center mb-8 lg:hidden">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Tripoo</h1>
-              <p className="text-gray-600">إنشاء حساب جديد</p>
-            </div>
-
-          {/* Error Message */}
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Company Name */}
-            <div className="space-y-2">
-              <Label htmlFor="companyName">اسم الشركة</Label>
-              <Input
-                id="companyName"
-                name="companyName"
-                placeholder="اسم شركتك"
-                value={formData.companyName}
-                onChange={handleChange}
-                required
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email">البريد الإلكتروني</Label>
-              <Input
-                id="email"
+        {/* Email */}
+        <div className="space-y-1.5">
+            <Label htmlFor="email" className="text-xs font-semibold text-slate-500 mr-1">البريد الإلكتروني</Label>
+            <div className="relative">
+                <Input 
+                id="email" 
                 name="email"
                 type="email"
-                placeholder="your@email.com"
+                placeholder="name@company.com" 
+                className="h-14 bg-slate-50 border-slate-200 focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-4 transition-all duration-300 font-medium text-slate-700 placeholder:text-slate-400"
                 value={formData.email}
                 onChange={handleChange}
-                required
-                disabled={isLoading}
-              />
+                required 
+                />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 size-5" />
             </div>
+        </div>
 
-            {/* Phone */}
-            <div className="space-y-2">
-              <Label htmlFor="phone">الهاتف</Label>
-              <Input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="+966512345678"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Password */}
-            <div className="space-y-2">
-              <Label htmlFor="password">كلمة المرور</Label>
-              <Input
-                id="password"
+        {/* Password */}
+        <div className="space-y-1.5">
+            <Label htmlFor="password" className="text-xs font-semibold text-slate-500 mr-1">كلمة المرور</Label>
+            <div className="relative">
+                <Input 
+                id="password" 
                 name="password"
-                type="password"
-                placeholder="••••••••"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••" 
+                className="h-14 bg-slate-50 border-slate-200 focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-4 transition-all duration-300 font-medium text-slate-700 placeholder:text-slate-400"
                 value={formData.password}
                 onChange={handleChange}
-                required
-                disabled={isLoading}
-              />
+                required 
+                />
+                <button 
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                    {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+                </button>
             </div>
-
-            {/* Confirm Password */}
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                placeholder="••••••••"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full mt-6"
-              size="lg"
-              disabled={isLoading}
-            >
-              {isLoading ? 'جاري الإنشاء...' : 'إنشاء حساب'}
-            </Button>
-          </form>
-
-          {/* Footer Links */}
-          <div className="mt-6 text-center text-sm text-gray-600">
-            <p>
-              لديك حساب بالفعل؟{' '}
-              <a href="/auth/login" className="text-blue-600 hover:text-blue-700 font-medium">
-                سجل دخول
-              </a>
-            </p>
-          </div>
         </div>
-      </Card>
-    </div>
-  </div>
+
+        <div className="pt-6 flex flex-col md:flex-row gap-4">
+            <Button 
+                type="button" 
+                className="flex-1 h-14 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm border-0 transition-all shadow-none" 
+            >
+                تغيير الطريقة
+            </Button>
+
+            <Button 
+                type="submit" 
+                className="flex-2 h-14 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm shadow-lg shadow-blue-500/25 border-0 transition-all active:scale-[0.98]" 
+                disabled={isLoading}
+            >
+                {isLoading ? (
+                    <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    جاري الإنشاء...
+                    </>
+                ) : (
+                    'إنشاء الحساب'
+                )}
+            </Button>
+        </div>
+      </form>
+    </AuthSplitLayout>
   )
 }
+
