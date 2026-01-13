@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/layout/Sidebar";
-import Header from "@/components/layout/Header";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 
 const cairo = Cairo({
   subsets: ["arabic"],
@@ -25,13 +24,7 @@ export default function RootLayout({
       <body
         className={`${cairo.className} antialiased bg-gray-50 text-gray-900 flex h-screen overflow-hidden`}
       >
-        <Sidebar />
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <Header />
-          <main className="flex-1 overflow-y-auto p-6">
-            {children}
-          </main>
-        </div>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
